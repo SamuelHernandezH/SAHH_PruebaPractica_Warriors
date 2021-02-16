@@ -44,18 +44,18 @@
 
                     <div class="pull-right">
                         <a class="btn btn-success" href="{{ route('InsertaAlumno') }}"> Agregar nuevo alumno </a>
-                        <a class="btn btn-success" href="{{ route('ListaAlumnos') }}"> Cambiar a lista Grupos </a>
+                        <a class="btn btn-success" href="{{ route('ListaGrupos') }}"> Cambiar a lista Grupos </a>
                     </div>
                     <br>
                 </div>
             </div>
-
+            <br>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
                 </div>
             @endif
-
+            <br>
             <table class="table table-striped">
                 <tr>
                     <th>Clave Única</th>
@@ -64,7 +64,7 @@
                     <th>Edad</th>
                     <th>Email</th>
                     <th>Teléfono</th>
-                    <th>Clave Grupo</th>
+                    <th>Grupo</th>
                     <th width="280px">Acciones</th>
                 </tr>
 

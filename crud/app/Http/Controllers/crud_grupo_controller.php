@@ -13,10 +13,9 @@ class crud_grupo_controller extends Controller
 
     public function grupo_index()
     {
-        $grupos = DB::table('grupo')->latest()->paginate(5);
+        $grupos = DB::table('grupo')->get();
 
-        return view('grupos_lista',compact('grupos'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('grupos_lista',compact('grupos'));
     }
 
     public function grupo_CrearView()
@@ -26,22 +25,17 @@ class crud_grupo_controller extends Controller
 
     public function grupo_guardar(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'nombre' => 'required',
             'semestre' => 'required',
             'grupo' => 'required',
             'turno' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return redirect('/lista_grupos/InsertaGrupo')
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
         Grupo::create($request->all());
 
-        return redirect()->route('ListaGrupos');
+        return redirect()->route('ListaGrupos')
+        ->with('success','Grupo registrado correctamente.');
 
     }
 
@@ -60,12 +54,14 @@ class crud_grupo_controller extends Controller
         $grupo->turno = $request->input('turno');
 
         $grupo->save();
-        return redirect('/lista_grupos');
+        return redirect()->route('ListaGrupos')
+        ->with('success','Grupo actualizado correctamente.');
     }
 
     public function grupo_Eliminar($id){
         $grupo = Grupo::find($id);
          $grupo->delete();
-         return redirect('/lista_grupos');
+         return redirect()->route('ListaGrupos')
+         ->with('success','Grupo removido correctamente.');
     }
 }

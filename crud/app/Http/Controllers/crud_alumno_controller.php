@@ -13,9 +13,10 @@ class crud_alumno_controller extends Controller
 
     public function alumno_index()
     {
-        $alumnos = DB::table('alumno')->latest()->paginate(5);
-        return view('alumnos_lista',compact('alumnos'))
-       ->with('i', (request()->input('page', 1) - 1) * 5);
+        $alumnos = DB::table('alumno')
+            ->get();
+
+        return view('alumnos_lista',compact('alumnos'));
     }
 
     public function alumno_CrearView()
@@ -39,7 +40,7 @@ class crud_alumno_controller extends Controller
         Alumno::create($request->all());
 
         return redirect()->route('ListaAlumnos')
-        ->with('success','Product created successfully.');
+        ->with('success','Alumno registrado correctamente.');
 
     }
 
@@ -61,12 +62,14 @@ class crud_alumno_controller extends Controller
      
         $Alumno->save();
 
-        return redirect('/lista_alumnos');
+        return redirect()->route('ListaAlumnos')
+        ->with('success','Alumno actualizado correctamente.');
     }
 
     public function alumno_Eliminar($id){
         $Alumno = Alumno::find($id);
          $Alumno->delete();
-         return redirect('/lista_alumnos');
+         return redirect()->route('ListaAlumnos')
+         ->with('success','Alumno removido correctamente.');
     }
 }
